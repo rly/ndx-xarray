@@ -1,0 +1,13 @@
+namespaces:
+- author:
+  - Ryan Ly
+  contact:
+  - rly@lbl.gov
+  doc: NWB extension to add support for storing/referencing external xarray files
+  name: ndx-xarray
+  schema:
+  - namespace: core
+    neurodata_types:
+    - ElectricalSeries
+  - source: ndx-xarray.extensions.yaml
+  version: 0.1.0
