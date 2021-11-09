@@ -1,13 +1,3 @@
-# ndx-xarray Extension for NWB
-
-## Installation
-
-
-## Usage
-The `ExternalXarrayDataset` supports storage of paths to xarray datasets stored in netCDF-format files
-with the suffix `.nc`. Files should be openable using `xr.open_dataset(path)`.
-
-```python
 import datetime
 import numpy as np
 import xarray as xr
@@ -56,8 +46,3 @@ with NWBHDF5IO(path, mode="r", load_namespaces=True) as io:
     read_nwbfile = io.read()
     ret = read_nwbfile.get_scratch("test_xarray")
     print(ret)
-
-```
-
-
-This extension was created using [ndx-template](https://github.com/nwb-extensions/ndx-template).

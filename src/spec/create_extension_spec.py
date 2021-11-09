@@ -16,33 +16,26 @@ def main():
         contact=list(map(str.strip, """rly@lbl.gov""".split(',')))
     )
 
-    # TODO: specify the neurodata_types that are used by the extension as well
-    # as in which namespace they are found.
-    # this is similar to specifying the Python modules that need to be imported
-    # to use your new data types.
-    # all types included or used by the types specified here will also be
-    # included.
-    ns_builder.include_type('ElectricalSeries', namespace='core')
+    ns_builder.include_type('NWBDataInterface', namespace='core')
 
-    # TODO: define your new data types
-    # see https://pynwb.readthedocs.io/en/latest/extensions.html#extending-nwb
-    # for more information
-    tetrode_series = NWBGroupSpec(
-        neurodata_type_def='TetrodeSeries',
-        neurodata_type_inc='ElectricalSeries',
-        doc=('An extension of ElectricalSeries to include the tetrode ID for '
-             'each time series.'),
+    external_xarray_dataset = NWBGroupSpec(
+        neurodata_type_def='ExternalXarrayDataset',
+        neurodata_type_inc='NWBDataInterface',
+        doc=('An NWB container that contains a reference to an xarray dataset stored in an external netCDF file. '
+             'The file should be stored in the netCDF4 format (the default when using Dataset.to_netcdf(...) on '
+             'xarray v0.19.0 with the netCDF4-python library available. The netCDF4 format stores data is an '
+             'HDF5 file with netCDF4 API features.'),
         attributes=[
             NWBAttributeSpec(
-                name='trode_id',
-                doc='The tetrode ID.',
-                dtype='int32'
+                name='path',
+                doc='The relative file path to the xarray dataset.',
+                dtype='text'
             )
         ],
     )
 
     # TODO: add all of your new data types to this list
-    new_data_types = [tetrode_series]
+    new_data_types = [external_xarray_dataset]
 
     # export the spec to yaml files in the spec folder
     output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'spec'))

@@ -1,8 +1,11 @@
 groups:
-- neurodata_type_def: TetrodeSeries
-  neurodata_type_inc: ElectricalSeries
-  doc: An extension of ElectricalSeries to include the tetrode ID for each time series.
+- neurodata_type_def: ExternalXarrayDataset
+  neurodata_type_inc: NWBDataInterface
+  doc: An NWB container that contains a reference to an xarray dataset stored in an
+    external netCDF file. The file should be stored in the netCDF4 format (the default
+    when using Dataset.to_netcdf(...) on xarray v0.19.0 with the netCDF4-python library
+    available. The netCDF4 format stores data is an HDF5 file with netCDF4 API features.
   attributes:
-  - name: trode_id
-    dtype: int32
-    doc: The tetrode ID.
+  - name: path
+    dtype: text
+    doc: The relative file path to the xarray dataset.
