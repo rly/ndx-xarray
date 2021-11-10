@@ -28,14 +28,14 @@ setup_args = {
     'long_description_content_type': readme_type,
     'author': 'Ryan Ly',
     'author_email': 'rly@lbl.gov',
-    'url': '',
+    'url': 'https://github.com/rly/ndx-xarray',
     'license': 'BSD 3-Clause',
     'install_requires': [
-        'pynwb>=1.5.0',
-        'hdmf>=2.5.6',
-        'xarray'
+        'pynwb>=2.0.0',
+        'hdmf>=3.1.1',
+        'xarray>=0.19.0'
     ],
-    'packages': find_packages('src/pynwb'),
+    'packages': find_packages('src/pynwb', exclude=['tests']),
     'package_dir': {'': 'src/pynwb'},
     'package_data': {'ndx_xarray': [
         'spec/ndx-xarray.namespace.yaml',
@@ -44,6 +44,11 @@ setup_args = {
     'classifiers': [
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
+        "License :: OSI Approved :: BSD License",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     'zip_safe': False
 }

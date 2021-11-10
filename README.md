@@ -7,6 +7,9 @@
 The `ExternalXarrayDataset` supports storage of paths to xarray datasets stored in netCDF-format files
 with the suffix `.nc`. Files should be openable using `xr.open_dataset(path)`.
 
+The file should be stored in the netCDF4 format (the default when using `Dataset.to_netcdf(...)` on
+`xarray >= v0.19.0` with the netCDF4-python library available.
+
 ```python
 import datetime
 import numpy as np

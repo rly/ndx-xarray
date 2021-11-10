@@ -1,5 +1,5 @@
 Specification for the ndx-xarray extension
-==================================
+==========================================
 
 .. toctree::
     :numbered:
