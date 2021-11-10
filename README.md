@@ -46,7 +46,7 @@ path = "test.nwb"
 xr_path = "test_xarray.nc"
 write_xarray_dataset(xr_path)
 
-xr_dset = ExternalXarrayDataset(name="test_xarray", path=xr_path)
+xr_dset = ExternalXarrayDataset(name="test_xarray", description="test description", path=xr_path)
 nwbfile.add_scratch(xr_dset)
 
 with NWBHDF5IO(path, mode="w") as io:
@@ -54,9 +54,9 @@ with NWBHDF5IO(path, mode="w") as io:
 
 with NWBHDF5IO(path, mode="r", load_namespaces=True) as io:
     read_nwbfile = io.read()
-    ret = read_nwbfile.get_scratch("test_xarray")
-    print(ret)
-
+    ret_xr_dset = read_nwbfile.get_scratch("test_xarray")
+    print(ret_xr_dset)
+    print(ret_xr_dset.as_xarray())
 ```
 
 

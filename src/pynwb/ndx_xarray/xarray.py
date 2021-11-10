@@ -9,10 +9,15 @@ import xarray as xr
 @register_class('ExternalXarrayDataset', 'ndx-xarray')
 class ExternalXarrayDataset(NWBDataInterface):
 
-    __nwbfields__ = ('path', )
+    __nwbfields__ = ('description', 'path', )
 
     @docval(
         *get_docval(NWBDataInterface.__init__),
+        {
+            'name': 'description',
+            'type': str,
+            'doc': 'Description of the xarray dataset.',
+        },
         {
             'name': 'path',
             'type': (str, Path),
@@ -20,8 +25,9 @@ class ExternalXarrayDataset(NWBDataInterface):
         },
     )
     def __init__(self, **kwargs):
-        path = popargs('path', kwargs)
+        description, path = popargs('description', 'path', kwargs)
         call_docval_func(super().__init__, kwargs)
+        self.description = description
         if isinstance(path, Path):
             path = str(path)
         self.path = path

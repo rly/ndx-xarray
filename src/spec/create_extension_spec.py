@@ -21,14 +21,18 @@ def main():
     external_xarray_dataset = NWBGroupSpec(
         neurodata_type_def='ExternalXarrayDataset',
         neurodata_type_inc='NWBDataInterface',
-        doc=('An NWB container that contains a reference to an xarray dataset stored in an external netCDF file. '
+        doc=('An NWB container that contains a reference to an xarray dataset stored in an external netCDF .nc file. '
              'The file should be stored in the netCDF4 format (the default when using Dataset.to_netcdf(...) on '
-             'xarray v0.19.0 with the netCDF4-python library available. The netCDF4 format stores data is an '
-             'HDF5 file with netCDF4 API features.'),
+             'xarray >= v0.19.0, <= 1 with the netCDF4-python library available.'),
         attributes=[
             NWBAttributeSpec(
+                name='description',
+                doc='Description of the xarray dataset.',
+                dtype='text'
+            ),
+            NWBAttributeSpec(
                 name='path',
-                doc='The relative file path to the xarray dataset.',
+                doc='Relative file path to the xarray dataset.',
                 dtype='text'
             )
         ],
