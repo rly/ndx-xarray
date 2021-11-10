@@ -26,24 +26,36 @@ def write_xarray_dataset(xr_path):
     ds.to_netcdf(xr_path)
 
 
-nwbfile = NWBFile(
-      session_description="session_description",
-      identifier="identifier",
-      session_start_time=datetime.datetime.now(datetime.timezone.utc)
-)
+def test_readme_example():
+    nwbfile = NWBFile(
+          session_description="session_description",
+          identifier="identifier",
+          session_start_time=datetime.datetime.now(datetime.timezone.utc)
+    )
 
-path = "test.nwb"
-xr_path = "test_xarray.nc"
-write_xarray_dataset(xr_path)
+    path = "test.nwb"
+    xr_path = "test_xarray.nc"
+    write_xarray_dataset(xr_path)
 
-xr_dset = ExternalXarrayDataset(name="test_xarray", description="test description", path=xr_path)
-nwbfile.add_scratch(xr_dset)
+    # ExternalXarrayDataset requires a name, description, and relative path to an xarray file (.nc)
+    xr_dset1 = ExternalXarrayDataset(name="test_xarray1", description="test description", path=xr_path)
 
-with NWBHDF5IO(path, mode="w") as io:
-    io.write(nwbfile)
+    # ExternalXarrayDataset extends NWBDataInterface and so it can be added to the NWBFile's acquisition
+    # group, analysis group, scratch space, or a processing module
+    nwbfile.add_scratch(xr_dset1)
 
-with NWBHDF5IO(path, mode="r", load_namespaces=True) as io:
-    read_nwbfile = io.read()
-    ret_xr_dset = read_nwbfile.get_scratch("test_xarray")
-    print(ret_xr_dset)
-    print(ret_xr_dset.as_xarray())
+    xr_dset2 = ExternalXarrayDataset(name="test_xarray2", description="test description", path=xr_path)
+    nwbfile.add_analysis(xr_dset2)
+
+    with NWBHDF5IO(path, mode="w") as io:
+        io.write(nwbfile)
+
+    with NWBHDF5IO(path, mode="r", load_namespaces=True) as io:
+        read_nwbfile = io.read()
+        ret_xr_dset1 = read_nwbfile.get_scratch("test_xarray1")
+        print(ret_xr_dset1)
+        print(ret_xr_dset1.as_xarray())
+
+        ret_xr_dset2 = read_nwbfile.get_analysis("test_xarray2")
+        print(ret_xr_dset2)
+        print(ret_xr_dset2.as_xarray())
