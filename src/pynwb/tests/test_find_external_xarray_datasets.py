@@ -55,7 +55,7 @@ def test_find_external_xarray_datasets():
     )
 
     path = "test.nwb"
-    xr_path = "test_xarray.nc"
+    xr_path = "test_xarray2.nc"
     write_xarray_dataset(xr_path)
 
     # ExternalXarrayDataset requires a name, description, and relative path to an xarray file (.nc)
@@ -71,13 +71,21 @@ def test_find_external_xarray_datasets():
     with NWBHDF5IO(path, mode="w") as io:
         io.write(nwbfile)
 
-    # find all ExternalXarrayDataset objects in the file
+    # find all ExternalXarrayDataset objects in the file.
+    # this read block works regardless of whether "import ndx_xarray" was called earlier
+    # in the python execution
     with NWBHDF5IO(path, mode="r", load_namespaces=True) as io:
+        # if the extension python module has been imported, this line will return the custom API
+        # class defined in the extension (ndx_array.xarray.ExternalArrayDataset).
+        # otherwise, this line will return the class generated for reading data with this
+        # neurodata type based on the cached namespace in the file (abc.ExternalArrayDataset).
+        cls = io.manager.type_map.get_dt_container_cls("ExternalXarrayDataset", "ndx-xarray")
+
         read_nwbfile = io.read()
         count = 0
         print("All ExternalXarrayDataset objects found in the file:")
         for object_id, obj in read_nwbfile.objects.items():
-            if isinstance(obj, ExternalXarrayDataset):
+            if isinstance(obj, cls):
                 count += 1
                 builder = io.manager.get_builder(obj)
                 pynwb_hierarchy = hierarchy_to_str(get_container_hierarchy(obj))
