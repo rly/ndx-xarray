@@ -14,7 +14,7 @@ def set_up_nwbfile():
     nwbfile = NWBFile(
         session_description="session_description",
         identifier="identifier",
-        session_start_time=datetime.datetime.now(datetime.timezone.utc)
+        session_start_time=datetime.datetime.now(datetime.timezone.utc),
     )
     return nwbfile
 

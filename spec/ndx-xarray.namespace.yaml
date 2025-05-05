@@ -7,7 +7,5 @@ namespaces:
   name: ndx-xarray
   schema:
   - namespace: core
-    neurodata_types:
-    - NWBDataInterface
   - source: ndx-xarray.extensions.yaml
-  version: 0.1.0
+  version: 0.1.1

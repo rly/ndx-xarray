@@ -28,9 +28,9 @@ def write_xarray_dataset(xr_path):
 
 def test_readme_example():
     nwbfile = NWBFile(
-          session_description="session_description",
-          identifier="identifier",
-          session_start_time=datetime.datetime.now(datetime.timezone.utc)
+        session_description="session_description",
+        identifier="identifier",
+        session_start_time=datetime.datetime.now(datetime.timezone.utc),
     )
 
     path = "test.nwb"
