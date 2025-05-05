@@ -129,7 +129,9 @@ exclude = [
 line-length = 120
 
 [tool.ruff.lint.per-file-ignores]
+"src/pynwb/ndx_xarray/__init__.py" = ["E402"]
 "src/spec/create_extension_spec.py" = ["T201"]
+"src/pynwb/tests/*.py" = ["T201"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 17
