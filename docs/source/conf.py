@@ -10,7 +10,7 @@ project = 'ndx-xarray'
 copyright = '2025, Ryan Ly'
 author = 'Ryan Ly'
 
-version = '0.1.1'
+version = '0.1.2'
 release = 'alpha'
 
 # -- General configuration ---------------------------------------------------
