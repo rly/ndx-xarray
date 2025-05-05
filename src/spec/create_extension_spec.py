@@ -8,7 +8,7 @@ def main():
     # these arguments were auto-generated from your cookiecutter inputs
     ns_builder = NWBNamespaceBuilder(
         name="""ndx-xarray""",
-        version="""0.1.1""",
+        version="""0.1.2""",
         doc="""NWB extension to add support for storing/referencing external xarray files""",
         author=[
             "Ryan Ly",
