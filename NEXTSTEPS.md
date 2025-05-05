@@ -4,12 +4,13 @@
 
 ## Creating Your Extension
 
-1. In a terminal, change directory into the new ndx-xarray directory.
+1. In a terminal, change directory into the new ndx-xarray directory: `cd ndx-xarray`
 
-2. Add any packages required by your extension to `requirements.txt` and `setup.py`.
+2. Add any packages required by your extension to the `[project] dependencies` or `[project.optional-dependencies]` 
+section of `pyproject.toml`.
 
-3. Run `python -m pip install -r requirements.txt` to install the `pynwb` package
-and any other packages required by your extension.
+3. Run `python -m pip install -e .` to install your new extension Python package
+and any other packages required to develop, document, and run your extension.
 
 4. Modify `src/spec/create_extension_spec.py` to define your extension.
 
@@ -19,16 +20,18 @@ and any other packages required by your extension.
 
 6. Define API classes for your new extension data types.
 
-    - As a starting point, `src/pynwb/__init__.py` includes an example for how to use
-      the `pynwb.get_class` to get a basic Python class for your new extension data
+    - As a starting point, `src/pynwb/ndx_xarray/__init__.py` includes an
+      example for how to use
+      the `pynwb.get_class` to generate a basic Python class for your new extension data
       type. This class contains a constructor and properties for the new data type.
     - Instead of using `pynwb.get_class`, you can define your own custom class for the
       new type, which will allow you to customize the class methods, customize the
-      object mapping, and create convenience functions. See
-      [https://pynwb.readthedocs.io/en/stable/tutorials/general/extensions.html](https://pynwb.readthedocs.io/en/stable/tutorials/general/extensions.html)
+      object mapping, and create convenience functions. See the
+      [Extending NWB tutorial](https://pynwb.readthedocs.io/en/stable/tutorials/general/extensions.html)
       for more details.
 
-7. Define tests for your new extension data types in `src/pynwb/tests` or `src/matnwb/tests`.
+7. Define tests for your new extension data types in 
+`src/pynwb/ndx_xarray/tests` or `src/matnwb/tests`.
 A test for the example `TetrodeSeries` data type is provided as a reference and should be
 replaced or removed.
 
@@ -40,9 +43,25 @@ replaced or removed.
      new functions) and **integration tests** (e.g., write the new data types to file, read
      the file, and confirm the read data types are equal to the written data types) is
      highly encouraged.
+     - By default, to aid with debugging, the project is configured NOT to run code coverage as
+     part of the tests.
+     Code coverage reporting is useful to help with creation of tests and report test coverage.
+     However, with this option enabled, breakpoints for debugging with pdb are being ignored.
+     To enable this option for code coverage reporting, uncomment out the following line in
+     your `pyproject.toml`: [line](https://github.com/nwb-extensions/ndx-template/blob/11ae225b3fd3934fa3c56e6e7b563081793b3b43/%7B%7B%20cookiecutter.namespace%20%7D%7D/pyproject.toml#L82-L83
+)
 
-8. You may need to modify `setup.py` and re-run `python setup.py install` if you
+7. (Optional) Define custom visualization widgets for your new extension data types in
+`src/pynwb/ndx_xarray/widgets` so that the visualizations can be displayed with
+[nwbwidgets](https://github.com/NeurodataWithoutBorders/nwbwidgets).
+You will also need to update the `vis_spec` dictionary in 
+`src/pynwb/ndx_xarray/widgets/__init__.py` so that
+nwbwidgets can find your custom visualizations.
+
+8. You may need to modify `pyproject.toml` and re-run `python -m pip install -e .` if you
 use any dependencies.
+
+9. Update the `CHANGELOG.md` regularly to document changes to your extension.
 
 
 ## Documenting and Publishing Your Extension to the Community
@@ -65,16 +84,26 @@ your extension.
 
 7. Add a license file. Permissive licenses should be used if possible. **A [BSD license](https://opensource.org/licenses/BSD-3-Clause) is recommended.**
 
-8. Make a release for the extension on GitHub with the version number specified. e.g. if version is 0.1.0, then this page should exist: https://github.com/rly/ndx-xarray/releases/tag/0.1.0 . For instructions on how to make a release on GitHub see [here](https://help.github.com/en/github/administering-a-repository/creating-releases).
+8. Update the `CHANGELOG.md` to document changes to your extension.
+
+8. Push your repository to GitHub. A default set of GitHub Actions workflows is set up to
+test your code on Linux, Windows, Mac OS, and Linux using conda; upload code coverage
+stats to codecov.io; check for spelling errors; check for style errors; and check for broken
+links in the documentation. For the code coverage workflow to work, you will need to
+set up the repo on codecov.io and uncomment the "Upload coverage to Codecov" step
+in `.github/workflows/run_coverage.yml`.
+
+8. Make a release for the extension on GitHub with the version number specified. e.g. if version is 0.1.1, then this page should exist: https://github.com/rly/ndx-xarray/releases/tag/0.1.1 . For instructions on how to make a release on GitHub see [here](https://help.github.com/en/github/administering-a-repository/creating-releases).
 
 9. Publish your updated extension on [PyPI](https://pypi.org/).
-    - Follow these directions: https://packaging.python.org/tutorials/packaging-projects/
-    - You may need to modify `setup.py`
-    - If your extension version is 0.1.0, then this page should exist: https://pypi.org/project/ndx-xarray/0.1.0
+    - Follow these directions: https://packaging.python.org/en/latest/tutorials/packaging-projects/
+    - You may need to modify `pyproject.toml`
+    - If your extension version is 0.1.1, then this page should exist: https://pypi.org/project/ndx-xarray/0.1.1
 
-   Once your GitHub release and ``setup.py`` are ready, publishing on PyPI:
+   Once your GitHub release and `pyproject.toml` are ready, publishing on PyPI:
     ```bash
-    python setup.py sdist bdist_wheel
+    python -m pip install --upgrade build twine
+    python -m build
     twine upload dist/*
     ```
 
@@ -103,10 +132,10 @@ with information on where to find your NWB extension.
 
       ```yaml
       name: ndx-xarray
-      version: 0.1.0
+      version: 0.1.1
       src: https://github.com/rly/ndx-xarray
       pip: https://pypi.org/project/ndx-xarray/
-      license: BSD 3-Clause
+      license: BSD-3-Clause
       maintainers: 
         - rly
       ```

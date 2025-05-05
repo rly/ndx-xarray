@@ -1,4 +1,4 @@
-from hdmf.utils import docval, get_docval, call_docval_func, popargs
+from hdmf.utils import docval, get_docval, popargs
 from pathlib import Path
 from pynwb import register_class
 from pynwb.base import NWBDataInterface
@@ -26,7 +26,7 @@ class ExternalXarrayDataset(NWBDataInterface):
     )
     def __init__(self, **kwargs):
         description, path = popargs('description', 'path', kwargs)
-        call_docval_func(super().__init__, kwargs)
+        super().__init__(**kwargs)
         self.description = description
         if isinstance(path, Path):
             path = str(path)
