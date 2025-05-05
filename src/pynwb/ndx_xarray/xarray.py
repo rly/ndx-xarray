@@ -6,26 +6,29 @@ from warnings import warn
 import xarray as xr
 
 
-@register_class('ExternalXarrayDataset', 'ndx-xarray')
+@register_class("ExternalXarrayDataset", "ndx-xarray")
 class ExternalXarrayDataset(NWBDataInterface):
 
-    __nwbfields__ = ('description', 'path', )
+    __nwbfields__ = (
+        "description",
+        "path",
+    )
 
     @docval(
         *get_docval(NWBDataInterface.__init__),
         {
-            'name': 'description',
-            'type': str,
-            'doc': 'Description of the xarray dataset.',
+            "name": "description",
+            "type": str,
+            "doc": "Description of the xarray dataset.",
         },
         {
-            'name': 'path',
-            'type': (str, Path),
-            'doc': 'The relative file path to the xarray dataset.',
+            "name": "path",
+            "type": (str, Path),
+            "doc": "The relative file path to the xarray dataset.",
         },
     )
     def __init__(self, **kwargs):
-        description, path = popargs('description', 'path', kwargs)
+        description, path = popargs("description", "path", kwargs)
         super().__init__(**kwargs)
         self.description = description
         if isinstance(path, Path):
@@ -39,9 +42,9 @@ class ExternalXarrayDataset(NWBDataInterface):
     @path.setter
     @docval(
         {
-            'name': 'value',
-            'type': (str, Path),
-            'doc': 'The relative file path to the xarray dataset.',
+            "name": "value",
+            "type": (str, Path),
+            "doc": "The relative file path to the xarray dataset.",
         },
     )
     def path(self, **kwargs):
@@ -50,7 +53,7 @@ class ExternalXarrayDataset(NWBDataInterface):
         if self.path is not None:
             raise ValueError("Cannot reset path.")
 
-        value = popargs('value', kwargs)
+        value = popargs("value", kwargs)
         if Path(value).suffix != ".nc":
             warn("ExternalXarrayDataset path should have extension .nc: %s" % str(value))
 

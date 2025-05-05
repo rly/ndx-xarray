@@ -39,8 +39,7 @@ def get_container_hierarchy(container):
 
 
 def hierarchy_to_str(hierarchy):
-    """Return a string with the type and name of each container in a container hierarchy, separated by commas.
-    """
+    """Return a string with the type and name of each container in a container hierarchy, separated by commas."""
     ret = []
     for obj in hierarchy:
         ret.append("%s '%s'" % (type(obj), obj.name))
@@ -49,9 +48,9 @@ def hierarchy_to_str(hierarchy):
 
 def test_find_external_xarray_datasets():
     nwbfile = NWBFile(
-          session_description="session_description",
-          identifier="identifier",
-          session_start_time=datetime.datetime.now(datetime.timezone.utc)
+        session_description="session_description",
+        identifier="identifier",
+        session_start_time=datetime.datetime.now(datetime.timezone.utc),
     )
 
     path = "test.nwb"
